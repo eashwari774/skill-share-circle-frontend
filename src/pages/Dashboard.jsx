@@ -17,7 +17,7 @@ function Dashboard() {
   }, []);
 
   const fetchSessions = async () => {
-    const res = await axios.get("http://localhost:5000/api/sessions");
+    const res = await axios.get("https://skill-share-qn92.onrender.com/api/sessions");
     setSessions(res.data);
   };
 
@@ -28,7 +28,7 @@ function Dashboard() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/sessions/create",
+        "https://skill-share-qn92.onrender.com/api/sessions/create",
         { title, description, date },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -42,7 +42,7 @@ function Dashboard() {
   const handleEnroll = async (id) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/sessions/enroll/${id}`,
+        `https://skill-share-qn92.onrender.com/api/sessions/enroll/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
