@@ -16,7 +16,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        
+        <Route path="/add-skill" element={<AddSkill />} />
+
 
       </Routes>
     </BrowserRouter>
