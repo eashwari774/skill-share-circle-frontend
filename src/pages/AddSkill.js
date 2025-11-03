@@ -1,36 +1,78 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-function AddSkill() {
+const AddSkill = () => {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const token = localStorage.getItem("token");
-      await axios.post("https://skill-share-qn92.onrender.com/api/skills/add", 
-        { title, category, description, price },
-        { headers: { Authorization: `Bearer ${token}` } }
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/skills`,
+        { title, description, category },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-      alert("Skill Added ✅");
-    } catch (error) {
-      alert("Failed");
+
+      alert("Skill added successfully!");
+      setTitle("");
+      setDescription("");
+      setCategory("");
+    } catch (err) {
+      setError("Failed to add skill. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ maxWidth: "400px", margin: "auto" }}>
       <h2>Add Skill</h2>
-      <input placeholder="Title" onChange={(e)=>setTitle(e.target.value)} />
-      <input placeholder="Category" onChange={(e)=>setCategory(e.target.value)} />
-      <textarea placeholder="Description" onChange={(e)=>setDescription(e.target.value)} />
-      <input type="number" placeholder="Price" onChange={(e)=>setPrice(e.target.value)} />
-      <button type="submit">Add Skill</button>
-    </form>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          style={{ marginBottom: "10px", width: "100%", padding: "8px" }}
+        />
+
+        <input
+          placeholder="Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          required
+          style={{ marginBottom: "10px", width: "100%", padding: "8px" }}
+        />
+
+        <textarea
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+          style={{ marginBottom: "10px", width: "100%", padding: "8px" }}
+        ></textarea>
+
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "10px",
+            background: "black",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          Add Skill
+        </button>
+      </form>
+    </div>
   );
-}
+};
 
 export default AddSkill;
+
